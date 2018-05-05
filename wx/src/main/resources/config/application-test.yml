@@ -2,7 +2,7 @@ server:
   port: 8003
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/nmgwr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+    url: jdbc:mysql://122.112.229.135:8635/nmgwr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
     username: nmgwr
-    password: 123456
+    password: Nmgwr123!@#
     driver-class-name: com.mysql.cj.jdbc.Driver
