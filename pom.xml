@@ -23,30 +23,19 @@
     <!--maven库配置-->
     <repositories>
         <repository>
-            <id>central</id>
-            <name>central</name>
+            <id>mvn</id>
+            <name>mvn</name>
             <url>http://www.mvnrepository.com/</url>
         </repository>
         <repository>
-            <id>maven-ali</id>
+            <id>central</id>
+            <name>maven-ali</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
         </repository>
     </repositories>
 
     <!--通用依赖的插件在父模块中引用-->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
