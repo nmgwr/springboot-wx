@@ -15,7 +15,13 @@ public class SysOffice extends BaseEntity {
     private String type;
     private String grade;
     private String address;
+    private String master;
     private String phone;
     private String email;
+    private String createUser;
+    private String createDate;
+    private String updateUser;
+    private String remarks;
+    private String delFlag;
 
 }

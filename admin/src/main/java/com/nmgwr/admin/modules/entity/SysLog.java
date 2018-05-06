@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class SysLog extends BaseEntity{
 
-    private String id;
     private String type;
     private String title;
     private String requestUrl;

@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class SysUser extends BaseEntity {
 
-    private String id;
     private String name;
     private String companyId;
     private String officeId;

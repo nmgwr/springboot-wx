@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class SysMenu extends BaseEntity {
 
-    private String id;
     private String parentId;
     private String name;
     private String href;

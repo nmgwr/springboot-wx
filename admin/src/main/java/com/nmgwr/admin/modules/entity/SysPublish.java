@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class SysPublish extends BaseEntity {
 
-    private String id;
     private String content;
     private String title;
     private String status;
