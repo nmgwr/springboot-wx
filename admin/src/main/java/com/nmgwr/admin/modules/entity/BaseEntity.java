@@ -14,5 +14,8 @@ public class BaseEntity {
     private String remarks;
     private String delFlag;
     private String id;
+    private int pageSize;
+    private int pageNum;
+    private String orderBy;
 
 }
