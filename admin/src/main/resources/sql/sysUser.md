@@ -41,3 +41,6 @@ condition
 @if(!isEmpty(areaCode)){
     and t.area_code = #areaCode#
 @}
+@if(!isEmpty(delFlag)){
+    and t.del_flag = #delFlag#
+@}

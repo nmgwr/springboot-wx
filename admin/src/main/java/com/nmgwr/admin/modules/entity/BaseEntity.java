@@ -12,7 +12,7 @@ public class BaseEntity {
     private Date createDate;
     private Date updateDate;
     private String remarks;
-    private String delFlag;
+    private String delFlag = "0";
     private String id;
     private int pageSize;
     private int pageNum;
