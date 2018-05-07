@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 public class UserController {
 
@@ -18,14 +14,8 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/sys/user/findPage")
-    public PageQuery<SysUser> findPage(HttpServletRequest req){
-        Map<String,String> params = new HashMap<String, String>();
-        params.put("pageNum",req.getParameter("pageNum"));
-        params.put("pageSize",req.getParameter("pageSize"));
-        params.put("name",req.getParameter("name"));
-        params.put("id",req.getParameter("id"));
-        params.put("orderBy",req.getParameter("orderBy"));
-        return userService.findPage(params);
+    public PageQuery<SysUser> findPage(SysUser user){
+        return userService.findPage(user);
     }
 
 }

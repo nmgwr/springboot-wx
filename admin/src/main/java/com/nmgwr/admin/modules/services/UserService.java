@@ -14,13 +14,13 @@ public class UserService {
     @Autowired
     private UserDao userdao;
 
-    public PageQuery<SysUser> findPage(Map<String,String> params){
+    public PageQuery<SysUser> findPage(SysUser user){
         //分页对象，默认调用初始化页数，和页数大小的构造器
-        PageQuery<SysUser> pageQuery = new PageQuery<SysUser>(Long.parseLong(params.get("pageNum")),Long.parseLong(params.get("pageSize")));
+        PageQuery<SysUser> pageQuery = new PageQuery<SysUser>(user.getPageNum(),user.getPageSize());
         //设置请求参数
-        pageQuery.setParas(params);
+        pageQuery.setParas(user);
         //设置orderBy排序
-        pageQuery.setOrderBy(params.get("orderBy"));
+        pageQuery.setOrderBy(user.getOrderBy());
         //查询后会自动把结果回写到pageQuery里。所以下边直接返回pageQuery对象即可
         userdao.findListPage(pageQuery);
         return pageQuery;
