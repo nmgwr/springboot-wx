@@ -1,12 +1,11 @@
 package com.nmgwr.admin.modules.services;
 
+import com.nmgwr.admin.common.utils.PageQuery;
 import com.nmgwr.admin.modules.dao.UserDao;
 import com.nmgwr.admin.modules.entity.SysUser;
-import org.beetl.sql.core.engine.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 
 @Service
 public class UserService {
@@ -15,13 +14,7 @@ public class UserService {
     private UserDao userdao;
 
     public PageQuery<SysUser> findPage(SysUser user){
-        //分页对象，默认调用初始化页数，和页数大小的构造器
-        PageQuery<SysUser> pageQuery = new PageQuery<SysUser>(user.getPageNum(),user.getPageSize());
-        //设置请求参数
-        pageQuery.setParas(user);
-        //设置orderBy排序
-        pageQuery.setOrderBy(user.getOrderBy());
-        //查询后会自动把结果回写到pageQuery里。所以下边直接返回pageQuery对象即可
+        PageQuery pageQuery = new PageQuery(user);
         userdao.findListPage(pageQuery);
         return pageQuery;
     }
