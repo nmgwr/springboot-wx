@@ -16,4 +16,5 @@ public class SysUser extends BaseEntity {
     private String loginIp;
     private String loginDate;
     private String areaCode;
+    private String userStatus;
 }

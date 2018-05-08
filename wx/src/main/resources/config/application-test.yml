@@ -6,3 +6,5 @@ spring:
     username: nmgwr
     password: Nmgwr123!@#
     driver-class-name: com.mysql.cj.jdbc.Driver
+beetl-beetlsql:
+  dev: true #开发模式，修改sql不需要重启
