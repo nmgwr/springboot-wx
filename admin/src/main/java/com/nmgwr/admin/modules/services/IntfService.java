@@ -1,7 +1,7 @@
 package com.nmgwr.admin.modules.services;
 
 
-import com.nmgwr.admin.modules.entity.RespEntity;
+import com.nmgwr.admin.modules.entity.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,8 +14,8 @@ public class IntfService {
      * @param params
      * @return
      */
-    public RespEntity chechData(Map<String, String> params) {
-        return new RespEntity("0000");
+    public Result chechData(Map<String, String> params) {
+        return new Result("0000");
     }
 
 }

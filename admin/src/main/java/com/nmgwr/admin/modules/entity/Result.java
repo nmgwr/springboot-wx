@@ -6,24 +6,24 @@ import lombok.Data;
  * 外围系统返回报文定义
  */
 @Data
-public class RespEntity {
+public class Result {
 
     private String code;
     private String desc;
     private Object data;
 
-    public RespEntity(){}
+    public Result(){}
 
-    public RespEntity(String code){
+    public Result(String code){
         this.setCode(code);
     }
 
-    public RespEntity(String code,String desc){
+    public Result(String code, String desc){
         this.setCode(code);
         this.setDesc(desc);
     }
 
-    public RespEntity(String code,String desc,Object data){
+    public Result(String code, String desc, Object data){
         this.setCode(code);
         this.setDesc(desc);
         this.setData(data);
