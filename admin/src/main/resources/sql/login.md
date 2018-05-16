@@ -10,9 +10,10 @@ SELECT u.id,
 	u.mobile,
 	u.user_type,
 	u.area_code,
-	u.user_status
+	u.user_status,
+	p.passwd
  FROM sys_user u LEFT JOIN sys_passwd p ON u.id = p.user_id LEFT JOIN sys_office o ON u.office_id = o.id 
-WHERE u.login_name = #loginName# AND p.passwd = #passwd# ORDER BY p.update_date DESC LIMIT 1
+WHERE u.login_name = #loginName# ORDER BY p.update_date DESC LIMIT 1
  
 queryUserRoles
 ===

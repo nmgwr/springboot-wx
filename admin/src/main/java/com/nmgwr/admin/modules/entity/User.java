@@ -37,6 +37,7 @@ public class User extends TailBean{
     private String areaCode;
     private Boolean isAdmin;    //是否管理员
     private String userStatus;
+    private String passwd;
 
     //如果用户ID是0就是超级用户
     public Boolean getIsAdmin() {
@@ -44,9 +45,9 @@ public class User extends TailBean{
     }
 
     //获取orm tails中的sysRole
-    public List<Role> getRoles(){
+    public List<SysRole> getRoles(){
         //先将orm查询中tails下的sysRole拿出来
-        List<Role> list = (List<Role>)this.getTails().get("sysRole");
+        List<SysRole> list = (List<SysRole>)this.getTails().get("sysRole");
         //删掉tails下的sysRole
         this.getTails().remove("sysRole");
         return list;

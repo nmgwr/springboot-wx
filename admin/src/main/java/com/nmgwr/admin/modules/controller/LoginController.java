@@ -1,6 +1,6 @@
 package com.nmgwr.admin.modules.controller;
 
-import com.nmgwr.admin.modules.entity.RespEntity;
+import com.nmgwr.admin.modules.entity.Result;
 import com.nmgwr.admin.modules.services.IntfService;
 import com.nmgwr.admin.modules.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,9 @@ public class LoginController {
     private IntfService intfService;
 
     @RequestMapping("/sys/login")
-    public RespEntity login(@RequestParam Map<String,String> params, HttpServletRequest req){
-        RespEntity checkResult = intfService.chechData(params);
-        if(checkResult.getCode().equals("0000")){
-            return loginService.Login(params,req);
-        }else {
-            return checkResult;
-        }
+    public Result login(@RequestParam Map<String,String> params, HttpServletRequest req){
+        Result resp = new Result();
+        return resp;
     }
 
 }

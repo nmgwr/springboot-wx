@@ -6,5 +6,11 @@ spring:
     username: nmgwr
     password: Nmgwr123!@#
     driver-class-name: com.mysql.cj.jdbc.Driver
+  session:
+    store-type: redis
+  redis:
+    host: 192.168.56.101
+    port: 6379
+    password: 123456
 beetl-beetlsql:
   dev: true #开发模式，修改sql不需要重启
