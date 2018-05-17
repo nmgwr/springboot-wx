@@ -1,35 +1,26 @@
 package com.nmgwr.admin.modules.entity;
 
 import lombok.Data;
-import org.beetl.sql.core.TailBean;
-import org.beetl.sql.core.annotatoin.Tail;
-import org.beetl.sql.core.orm.OrmCondition;
-import org.beetl.sql.core.orm.OrmQuery;
 
-import javax.management.relation.Role;
-import java.util.List;
-
-
-@OrmQuery(
-        {
-                @OrmCondition(
-                        target = SysRole.class,
-                        attr = "id",
-                        targetAttr = "userId",
-                        sqlId = "login.queryUserRoles",
-                        type = OrmQuery.Type.MANY
-                )
-        }
-)
+//使用beetl的orm查询时继承TailBean，实现混合模型
+//@OrmQuery(
+//        {
+//                @OrmCondition(
+//                        target = SysRole.class,
+//                        attr = "id",
+//                        targetAttr = "userId",
+//                        sqlId = "login.queryUserRoles",
+//                        type = OrmQuery.Type.MANY
+//                )
+//        }
+//)
 @Data
-@Tail(set = "")
-public class User extends TailBean{
+public class User{
 
     private String id;
     private String name;
     private String officeId;
     private String officeName;
-    private List<Role> roles;
     private String loginName;
     private String phone;
     private String email;
@@ -39,6 +30,8 @@ public class User extends TailBean{
     private Boolean isAdmin;    //是否管理员
     private String userStatus;
     private String passwd;
+//    private List<Role> roles;
+
 
     //如果用户ID是0就是超级用户
     public Boolean getIsAdmin() {
@@ -46,11 +39,11 @@ public class User extends TailBean{
     }
 
     //获取orm tails中的sysRole
-    public List<SysRole> getRoles(){
-        //先将orm查询中tails下的sysRole拿出来
-        List<SysRole> list = (List<SysRole>)this.getTails().get("sysRole");
-        //删掉tails下的sysRole
-        this.getTails().remove("sysRole");
-        return list;
-    }
+//    public List<SysRole> getRoles(){
+//        //先将orm查询中tails下的sysRole拿出来
+//        List<SysRole> list = (List<SysRole>)this.getTails().get("sysRole");
+//        //删掉tails下的sysRole
+//        this.getTails().remove("sysRole");
+//        return list;
+//    }
 }
