@@ -47,7 +47,7 @@ public class WxShiroRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 loginName, //用户名
                 user.getPasswd(), //密码
-                ByteSource.Util.bytes(loginName+"123!@#---$%6"),//salt=username+salt
+                ByteSource.Util.bytes(loginName+"123!@#---$%6"),//自定义了md5加密的salt
                 getName()  //realm name
         );
         user.setPasswd("你是看不到我滴！！！");

@@ -1,6 +1,8 @@
 package com.nmgwr.admin.common.exception;
 
-public class UserNotExistException extends RuntimeException {
+import org.apache.shiro.authc.DisabledAccountException;
+
+public class UserNotExistException extends DisabledAccountException {
     public UserNotExistException(){
         super();
     }
