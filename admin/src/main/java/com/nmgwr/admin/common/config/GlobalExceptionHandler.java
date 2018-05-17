@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(value = Exception.class)
-    @ResponseBody
     public Result exception(Exception e){
         log.error(e.getMessage());
         return ResultUtil.error(ErrorEnum.UNKONW_ERROR);

@@ -13,6 +13,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -20,18 +22,28 @@ import java.util.Map;
 
 public class WxShiroRealm extends AuthorizingRealm {
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private LoginService loginService;
 
+    /**
+     * 授权验证
+     * @param principals
+     * @return
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//        System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
+        log.info("授权验证");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-
         return authorizationInfo;
     }
 
-    /*主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。*/
+    /**
+     * 登陆验证
+     * @param token
+     * @return
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token){
         String loginName = (String) token.getPrincipal();

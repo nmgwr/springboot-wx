@@ -9,7 +9,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,24 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class LoginController {
+public class LoginController extends BaseController{
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * 未登录、返回未登陆状态信息、由前端控制跳转页面
+     * 登陆
+     * @param params
      * @return
      */
-    @RequestMapping(value = "/unauth")
-    public Result unauth(){
-        return ResultUtil.error(ErrorEnum.NO_LOGIN);
-    }
-
     @RequestMapping("/login")
     public Result login(@RequestParam Map<String,String> params){
         Result result = new Result();
@@ -57,16 +51,17 @@ public class LoginController {
         }
     }
 
-    @RequestMapping("/looksession")
-    public Result looktest(@RequestParam Map<String,String> params, HttpServletRequest req){
-        Session session = SecurityUtils.getSubject().getSession();
-        User user = (User)SecurityUtils.getSubject().getSession().getAttribute("userInfo");
-        if(user != null){
-            return ResultUtil.success("用户【" + user.getName() + "】已登陆:" + session.getId());
-        }else {
-            return ResultUtil.success("用户未登陆:" + session.getId());
-        }
+    /**
+     * 登出
+     * @return
+     */
+    @RequestMapping("/logout")
+    public Result logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return ResultUtil.success();
     }
+
 
 
 }
