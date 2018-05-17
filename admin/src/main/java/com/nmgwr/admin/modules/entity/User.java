@@ -26,6 +26,7 @@ import java.util.List;
 public class User extends TailBean{
 
     private String id;
+    private String name;
     private String officeId;
     private String officeName;
     private List<Role> roles;

@@ -11,7 +11,8 @@ SELECT u.id,
 	u.user_type,
 	u.area_code,
 	u.user_status,
-	p.passwd
+	p.passwd,
+	u.name
  FROM sys_user u LEFT JOIN sys_passwd p ON u.id = p.user_id LEFT JOIN sys_office o ON u.office_id = o.id 
 WHERE u.login_name = #loginName# ORDER BY p.update_date DESC LIMIT 1
  

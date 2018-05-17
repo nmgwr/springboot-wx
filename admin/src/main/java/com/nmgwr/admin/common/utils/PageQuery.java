@@ -9,6 +9,11 @@ public class PageQuery<T> extends org.beetl.sql.core.engine.PageQuery {
      * @param entity
      */
     public PageQuery(Object entity){
+        this.init(entity);
+    }
+
+
+    public void init(Object entity){
         this.setPageNumber((int)ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(entity.getClass(),"getPageNum"),entity));
         this.setPageSize((int)ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(entity.getClass(),"getPageSize"),entity));
         this.setParas(entity);

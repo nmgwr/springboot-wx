@@ -3,8 +3,10 @@ package com.nmgwr.admin.common.config;
 public enum  ErrorEnum {
 
     UNKONW_ERROR("-1","未知错误"),
+    ERROR("-2","页面不存在"),
     USER_NOT_FIND("-101","用户不存在"),
-    ERROR("-2","服务器错误"),
+    USER_STATUS_ERROR("-102","用户被冻结"),
+    NO_LOGIN("-999","未登陆，请求拒绝"),
     PASSWD_ERROR("-102","密码错误");
 
     private String code;
