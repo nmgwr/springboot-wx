@@ -2,6 +2,7 @@ package com.nmgwr.admin.common.utils;
 
 import org.springframework.util.ReflectionUtils;
 
+
 public class PageQuery<T> extends org.beetl.sql.core.engine.PageQuery {
 
     /**
