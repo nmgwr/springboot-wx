@@ -9,8 +9,11 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -21,6 +24,10 @@ import java.util.Map;
 public class ShiroConfig {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
+
+    //注入redisTemplate、在设置residsSessionDao时用到
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * shiro过滤器、只配置了登陆不校验其他都校验、登陆登出调用shiro都在controller里触发了
@@ -81,11 +88,18 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public SessionManager sessionManager() {
+    public SessionManager sessionManager(Environment env) {
         WxSessionManager mySessionManager = new WxSessionManager();
-//        mySessionManager.setSessionDAO(redisSessionDAO());
+        //如果sessionType是redis则设置resdisSessionDao、否则走默认存内存里
+        String sessionType = env.getProperty("spring.session-type");
+        if(sessionType != null && sessionType.equals("redis")){
+            WxSessionDao  sessionDAO=new WxSessionDao();
+            sessionDAO.redisTemplate=redisTemplate;
+            mySessionManager.setSessionDAO(sessionDAO);
+        }
         return mySessionManager;
     }
+
 
     /**
      * 开启shiro aop注解支持.

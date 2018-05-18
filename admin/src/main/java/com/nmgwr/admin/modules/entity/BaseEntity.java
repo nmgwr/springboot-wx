@@ -2,10 +2,11 @@ package com.nmgwr.admin.modules.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class BaseEntity {
+public class BaseEntity implements Serializable {
 
     private String createUser;
     private String updateUser;

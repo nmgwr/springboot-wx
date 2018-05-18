@@ -2,6 +2,8 @@ package com.nmgwr.admin.modules.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 //使用beetl的orm查询时继承TailBean，实现混合模型
 //@OrmQuery(
 //        {
@@ -15,7 +17,7 @@ import lombok.Data;
 //        }
 //)
 @Data
-public class User{
+public class User implements Serializable{
 
     private String id;
     private String name;
