@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
-public class WxSessionDao extends EnterpriseCacheSessionDAO {
+public class RedisSessionDao extends EnterpriseCacheSessionDAO {
 
-    private static Logger logger = LoggerFactory.getLogger(WxSessionDao.class);
+    private static Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);
     // session 在redis过期时间是30分钟1800秒
     private static int expireTime = 1800;
 

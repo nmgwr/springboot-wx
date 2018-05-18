@@ -95,7 +95,7 @@ public class ShiroConfig {
         //如果sessionType是redis则设置resdisSessionDao、否则走默认存内存里
         String sessionType = env.getProperty("spring.session-type");
         if(sessionType != null && sessionType.equals("redis")){
-            WxSessionDao  sessionDAO=new WxSessionDao();
+            RedisSessionDao sessionDAO=new RedisSessionDao();
             sessionDAO.redisTemplate=redisTemplate;
             mySessionManager.setSessionDAO(sessionDAO);
         }
