@@ -28,7 +28,7 @@ public class WxSessionDao extends EnterpriseCacheSessionDAO {
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = super.doCreate(session);
-        logger.info("doCreate:{}", session.getId());
+        logger.debug("doCreate:{}", session.getId());
         redisTemplate.opsForValue().set(prefix + sessionId.toString(), session);
         return sessionId;
     }
@@ -36,7 +36,7 @@ public class WxSessionDao extends EnterpriseCacheSessionDAO {
     // 获取session
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        logger.info("doReadSession:{}", sessionId);
+        logger.debug("doReadSession:{}", sessionId);
         // 先从缓存中获取session，如果没有再去数据库中获取
         Session session = super.doReadSession(sessionId);
         if (session == null) {
@@ -49,7 +49,7 @@ public class WxSessionDao extends EnterpriseCacheSessionDAO {
     @Override
     protected void doUpdate(Session session) {
         super.doUpdate(session);
-        logger.info("doUpdate:{}", session.getId());
+        logger.debug("doUpdate:{}", session.getId());
         String key = prefix + session.getId().toString();
         if (!redisTemplate.hasKey(key)) {
             redisTemplate.opsForValue().set(key, session);
@@ -60,7 +60,7 @@ public class WxSessionDao extends EnterpriseCacheSessionDAO {
     // 删除session
     @Override
     protected void doDelete(Session session) {
-        logger.info("doDelete:{}", session.getId());
+        logger.debug("doDelete:{}", session.getId());
         super.doDelete(session);
         redisTemplate.delete(prefix + session.getId().toString());
     }

@@ -13,6 +13,6 @@ spring:
   devtools:
     restart:
       enabled: true
-  session-type: redis #重写了spring session type配置，默认不配是单机内存，支持redis
+#  session-type: redis #重写了spring session type配置，默认不配是单机内存，支持redis
 beetl-beetlsql:
   dev: true #开发模式，修改sql不需要重启
