@@ -27,7 +27,7 @@ public class ShiroConfig {
      * @param securityManager
      * @return
      */
-    @Bean
+    @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean shirFilter(org.apache.shiro.mgt.SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);

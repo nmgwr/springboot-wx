@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class LoginController extends BaseController{
      * @return
      */
     @RequestMapping("/login")
-    public Result login(@RequestParam Map<String,String> params){
+    public Result login(@RequestParam Map<String,String> params, HttpServletRequest req){
         Result result = new Result();
         UsernamePasswordToken token = new UsernamePasswordToken(params.get("loginName"),params.get("passwd"));
         Subject subject = SecurityUtils.getSubject();
