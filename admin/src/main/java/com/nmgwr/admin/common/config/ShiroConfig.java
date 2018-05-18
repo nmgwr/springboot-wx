@@ -22,6 +22,11 @@ public class ShiroConfig {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * shiro过滤器、只配置了登陆不校验其他都校验、登陆登出调用shiro都在controller里触发了
+     * @param securityManager
+     * @return
+     */
     @Bean
     public ShiroFilterFactoryBean shirFilter(org.apache.shiro.mgt.SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -36,6 +41,10 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
+    /**
+     * shiro-spring-boot-stater要求必须有该bean
+     * @return
+     */
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
@@ -55,6 +64,10 @@ public class ShiroConfig {
         return hashedCredentialsMatcher;
     }
 
+    /**
+     * 自定义realm、里边配置了登陆验证和权限验证
+     * @return
+     */
     @Bean
     public Realm realm() {
         WxShiroRealm myShiroRealm = new WxShiroRealm();
@@ -63,6 +76,10 @@ public class ShiroConfig {
     }
 
 
+    /**
+     * 自定义了session从请求头中获取
+     * @return
+     */
     @Bean
     public SessionManager sessionManager() {
         WxSessionManager mySessionManager = new WxSessionManager();
