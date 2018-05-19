@@ -4,10 +4,12 @@ import com.nmgwr.admin.modules.dao.LoginDao;
 import com.nmgwr.admin.modules.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 @Service
+@Transactional
 public class LoginService {
 
     @Autowired

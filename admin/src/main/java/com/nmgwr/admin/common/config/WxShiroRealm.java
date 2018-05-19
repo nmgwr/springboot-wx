@@ -1,6 +1,8 @@
 package com.nmgwr.admin.common.config;
 
 import com.nmgwr.admin.common.exception.UserNotExistException;
+import com.nmgwr.admin.modules.entity.SysMenu;
+import com.nmgwr.admin.modules.entity.SysRole;
 import com.nmgwr.admin.modules.entity.User;
 import com.nmgwr.admin.modules.services.LoginService;
 import org.apache.shiro.SecurityUtils;
@@ -13,15 +15,19 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.beetl.sql.core.SQLManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -35,8 +41,11 @@ public class WxShiroRealm extends AuthorizingRealm {
     public RedisTemplate<String, Object> redisTemplate;
 
     //session缓存类型
-    @Value("spring.session-type")
+    @Value("${spring.session-type}")
     private String sessionType;
+
+    @Autowired
+    private SQLManager sqlManager;
 
     /**
      * 授权验证
@@ -46,9 +55,43 @@ public class WxShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("授权验证");
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-
-        return authorizationInfo;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        Subject subject = SecurityUtils.getSubject();
+        User user = null;
+        if(sessionType != null && sessionType.equals("redis")){
+            user = (User)redisTemplate.opsForValue().get("shiro-session-user:" + subject.getSession().getId().toString());
+        }else {
+            user = (User)subject.getSession().getAttribute("userInfo");
+        }
+        if (user == null){
+            return null;
+        }
+        Map<String,Object> params = new HashMap<>();
+        params.put("userId",user.getId());
+        List<SysMenu> menuList = sqlManager.select("login.queryUserMenus",SysMenu.class,params);
+        List<SysRole> roleList = sqlManager.select("login.queryUserRoles",SysRole.class,params);
+        //我TM也不知道这块为啥从session里或者redis里取出来的用户有问题，估计是beetl的orm查询存在BUG，但是LoginController里的user信息（角色、菜单）是完整的。
+//        List<SysMenu> menuList = user.getMenus();
+//        List<SysRole> roleList = user.getRoles();
+        //设置用户菜单权限
+        if (menuList != null){
+            for (SysMenu menu : menuList){
+                if (!StringUtils.isEmpty(menu.getPermission())){
+                    // 添加基于Permission的权限信息
+                    String[] permissions = menu.getPermission().split(",");
+                    for (String permission : permissions){
+                        info.addStringPermission(permission);
+                    }
+                }
+            }
+        }
+        // 添加用户角色信息
+        if(roleList != null){
+            for (SysRole role : roleList){
+                info.addRole(role.getEnname());
+            }
+        }
+        return info;
     }
 
     /**

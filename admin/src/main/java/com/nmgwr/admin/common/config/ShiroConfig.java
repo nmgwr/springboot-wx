@@ -9,7 +9,9 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -102,21 +104,7 @@ public class ShiroConfig {
     }
 
     /**
-     * 自定义shiro缓存
-     * @param env 读取shpringboot配置文件
-     * @return
-     */
-//    @Bean
-//    public CacheManager cacheManager(Environment env){
-//        System.out.println("明天实现");
-//        return null;
-//    }
-
-
-    /**
-     * 开启shiro aop注解支持.
-     * 使用代理方式;所以需要开启代码支持;
-     *
+     * 开启shiro aop注解支持一下的两个bean
      * @param securityManager
      * @return
      */
@@ -126,7 +114,13 @@ public class ShiroConfig {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-
+    @Bean
+    @ConditionalOnMissingBean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
+        defaultAAP.setProxyTargetClass(true);
+        return defaultAAP;
+    }
 
 
 

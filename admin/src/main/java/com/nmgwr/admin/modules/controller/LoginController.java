@@ -32,7 +32,7 @@ public class LoginController extends BaseController{
     public RedisTemplate<String, Object> redisTemplate;
 
     //session缓存类型
-    @Value("spring.session-type")
+    @Value("${spring.session-type}")
     private String sessionType;
 
     /**
