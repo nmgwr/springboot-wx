@@ -13,6 +13,11 @@ public class LoginService {
     @Autowired
     private LoginDao loginDao;
 
+    /**
+     * 根据loginName查询用户
+     * @param params
+     * @return
+     */
     public User getUser(Map<String, String> params){
         return loginDao.login(params);
     }

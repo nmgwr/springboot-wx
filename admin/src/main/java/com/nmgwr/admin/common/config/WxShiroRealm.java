@@ -11,14 +11,19 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class WxShiroRealm extends AuthorizingRealm {
 
@@ -26,6 +31,12 @@ public class WxShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private LoginService loginService;
+    @Resource
+    public RedisTemplate<String, Object> redisTemplate;
+
+    //session缓存类型
+    @Value("spring.session-type")
+    private String sessionType;
 
     /**
      * 授权验证
@@ -36,6 +47,7 @@ public class WxShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("授权验证");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+
         return authorizationInfo;
     }
 
@@ -63,8 +75,16 @@ public class WxShiroRealm extends AuthorizingRealm {
                 getName()  //realm name
         );
         user.setPasswd("你是看不到我滴！！！");
-        //验证通过后把用户信息放在session里
-        SecurityUtils.getSubject().getSession().setAttribute("userInfo",user);
+        Session session = SecurityUtils.getSubject().getSession();
+        //验证通过后把用户信息放在缓存里（目前支持redis和默认的内存）
+        if(sessionType != null && sessionType.equals("redis")){
+            String redisKey = "shiro-session-user:" + session.getId().toString();
+            redisTemplate.opsForValue().set(redisKey,user);
+            redisTemplate.expire(redisKey, 1800, TimeUnit.SECONDS);//设置超时时间
+        }else {
+            session.setAttribute("userInfo",user);
+        }
+
         return authenticationInfo;
     }
 

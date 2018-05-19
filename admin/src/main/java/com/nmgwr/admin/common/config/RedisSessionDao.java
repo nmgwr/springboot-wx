@@ -54,6 +54,8 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO {
         if (!redisTemplate.hasKey(key)) {
             redisTemplate.opsForValue().set(key, session);
         }
+        String userKey = "shiro-session-user:" + session.getId().toString();
+        redisTemplate.expire(userKey, expireTime, TimeUnit.SECONDS);
         redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
@@ -64,5 +66,6 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO {
         super.doDelete(session);
         redisTemplate.delete(prefix + session.getId().toString());
     }
+
 
 }

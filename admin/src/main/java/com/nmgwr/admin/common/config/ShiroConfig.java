@@ -1,7 +1,6 @@
 package com.nmgwr.admin.common.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -107,11 +106,11 @@ public class ShiroConfig {
      * @param env 读取shpringboot配置文件
      * @return
      */
-    @Bean
-    public CacheManager cacheManager(Environment env){
-        System.out.println("明天实现");
-        return null;
-    }
+//    @Bean
+//    public CacheManager cacheManager(Environment env){
+//        System.out.println("明天实现");
+//        return null;
+//    }
 
 
     /**

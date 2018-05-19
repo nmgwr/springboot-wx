@@ -12,10 +12,13 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +27,13 @@ import java.util.Map;
 public class LoginController extends BaseController{
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @Resource
+    public RedisTemplate<String, Object> redisTemplate;
+
+    //session缓存类型
+    @Value("spring.session-type")
+    private String sessionType;
 
     /**
      * 登陆
@@ -38,7 +48,11 @@ public class LoginController extends BaseController{
         Map data = new HashMap<String,Object>();
         try{
             subject.login(token);
-            data.put("userInfo",(User)subject.getSession().getAttribute("userInfo"));
+            if(sessionType != null && sessionType.equals("redis")){
+                data.put("userInfo",(User)redisTemplate.opsForValue().get("shiro-session-user:" + subject.getSession().getId().toString()));
+            }else {
+                data.put("userInfo",(User)subject.getSession().getAttribute("userInfo"));
+            }
             data.put("token",subject.getSession().getId());
             result = ResultUtil.success(data);
         }catch (LockedAccountException e){
