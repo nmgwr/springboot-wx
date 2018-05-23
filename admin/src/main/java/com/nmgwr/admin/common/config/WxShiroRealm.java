@@ -131,4 +131,24 @@ public class WxShiroRealm extends AuthorizingRealm {
         return authenticationInfo;
     }
 
+    /**
+     * 获取权限授权信息，如果缓存中存在，则直接从缓存中获取，否则就重新获取， 登录成功后调用
+     */
+    @Override
+    protected AuthorizationInfo getAuthorizationInfo(PrincipalCollection principals) {
+        if (principals == null) {
+            return null;
+        }
+        AuthorizationInfo info;
+        Subject subject = SecurityUtils.getSubject();
+        info = (AuthorizationInfo)this.getCacheManager().getCache("shiro_auth_info").get(subject.getSession().getId());
+        if (info == null) {
+            info = doGetAuthorizationInfo(principals);
+            if (info != null) {
+                this.getCacheManager().getCache("shiro_auth_info").put(subject.getSession().getId(),info);
+            }
+        }
+        return info;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.nmgwr.admin.common.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,9 @@ public class ShiroConfig {
     //注入redisTemplate、在设置residsSessionDao时用到
     @Autowired
     private RedisTemplate redisTemplate;
-
+    //session缓存类型
+    @Value("${spring.session-type}")
+    private String sessionType;
     /**
      * shiro过滤器、只配置了登陆不校验其他都校验、登陆登出调用shiro都在controller里触发了
      * @param securityManager
@@ -41,7 +45,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String,Filter> filters = shiroFilterFactoryBean.getFilters();
-        filters.put("authc",new FormAuthenticationFilter());
+        filters.put("authc",new FormAuthenticationFilter(sessionType,redisTemplate));
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/**", "authc");
@@ -49,6 +53,7 @@ public class ShiroConfig {
         log.info("shiro初始化过滤器完成");
         return shiroFilterFactoryBean;
     }
+
 
     /**
      * shiro-spring-boot-stater要求必须有该bean
@@ -81,6 +86,13 @@ public class ShiroConfig {
     public Realm realm() {
         WxShiroRealm myShiroRealm = new WxShiroRealm();
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        if(sessionType != null && sessionType.equals("redis")){
+            RedisCacheManager redisCacheManager = new RedisCacheManager();
+            redisCacheManager.redisTemplate = redisTemplate;
+            myShiroRealm.setCacheManager(redisCacheManager);
+        }else {
+            myShiroRealm.setCacheManager(new MemoryConstrainedCacheManager());
+        }
         return myShiroRealm;
     }
 
@@ -102,6 +114,7 @@ public class ShiroConfig {
         }
         return mySessionManager;
     }
+
 
     /**
      * 开启shiro aop注解支持一下的两个bean

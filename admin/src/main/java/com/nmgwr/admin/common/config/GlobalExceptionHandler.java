@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
         if (e.getClass().getName().equals("org.apache.shiro.authz.UnauthorizedException")){
             return ResultUtil.error(ErrorEnum.NO_AUTH);
         }else {
+            e.printStackTrace();
             return ResultUtil.error(ErrorEnum.UNKONW_ERROR);
         }
     }
