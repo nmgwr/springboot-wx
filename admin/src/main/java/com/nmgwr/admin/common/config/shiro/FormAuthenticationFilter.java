@@ -1,7 +1,10 @@
-package com.nmgwr.admin.common.config;
+package com.nmgwr.admin.common.config.shiro;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.nmgwr.admin.common.config.ErrorEnum;
+import com.nmgwr.admin.common.config.ResultUtil;
+import org.apache.shiro.subject.Subject;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.ServletRequest;
@@ -24,6 +27,20 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     }
 
     @Override
+    protected Subject getSubject(ServletRequest request, ServletResponse response) {
+        Subject subject = super.getSubject(request, response);
+//        if(StringUtils.isEmpty(subject.getPrincipals())){
+//            subject = SecurityUtils.getSecurityManager().createSubject();
+//        }
+        return subject;
+    }
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        return true;
+    }
+
+    @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         if(this.isLoginRequest(request, response)) {
             if(this.isLoginSubmission(request, response)) {
@@ -32,33 +49,16 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
                 return true;
             }
         } else {
-            HttpServletResponse resp = (HttpServletResponse)response;
-            resp.setCharacterEncoding("UTF-8");
-            resp.setHeader("Content-type", "application/json;charset=UTF-8");
-            //转json输出null值
-            resp.getWriter().print(JSON.toJSONString(ResultUtil.error(ErrorEnum.NO_LOGIN),SerializerFeature.WriteMapNullValue));
-            return false;
+           return loginError(response);
         }
     }
 
-//    /**
-//     * 重写是否登陆方法、如果是resis存session就从redis取，取到认为已登陆
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    @Override
-//    protected boolean isLoginRequest(ServletRequest request, ServletResponse response) {
-//        if(sessionType != null && sessionType.equals("redis")){
-//            String sessionId = ((HttpServletRequest)request).getSession().getId();
-//            Session session = (Session) redisTemplate.opsForValue().get("shiro-session:" + sessionId.toString());
-//            if (!StringUtils.isEmpty(session.getId())){
-//                return true;
-//            }else {
-//                return false;
-//            }
-//        }else {
-//            return super.isLoginRequest(request, response);
-//        }
-//    }
+    public boolean loginError(ServletResponse response)throws Exception{
+        HttpServletResponse resp = (HttpServletResponse)response;
+        resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("Content-type", "application/json;charset=UTF-8");
+        //转json输出null值
+        resp.getWriter().print(JSON.toJSONString(ResultUtil.error(ErrorEnum.NO_LOGIN),SerializerFeature.WriteMapNullValue));
+        return false;
+    }
 }

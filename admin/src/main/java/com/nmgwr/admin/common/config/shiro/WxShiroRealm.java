@@ -1,4 +1,4 @@
-package com.nmgwr.admin.common.config;
+package com.nmgwr.admin.common.config.shiro;
 
 import com.nmgwr.admin.common.exception.UserNotExistException;
 import com.nmgwr.admin.modules.entity.SysMenu;
@@ -121,15 +121,17 @@ public class WxShiroRealm extends AuthorizingRealm {
         Session session = SecurityUtils.getSubject().getSession();
         //验证通过后把用户信息放在缓存里（目前支持redis和默认的内存）
         if(sessionType != null && sessionType.equals("redis")){
-            String redisKey = "shiro-session-user:" + session.getId().toString();
-            redisTemplate.opsForValue().set(redisKey,user);
-            redisTemplate.expire(redisKey, 1800, TimeUnit.SECONDS);//设置超时时间
+            //把当前登陆用户对应session放入redis中
+            String sessionUserKey = "shiro-session-user:" + session.getId().toString();
+            redisTemplate.opsForValue().set(sessionUserKey,user);
+            redisTemplate.expire(sessionUserKey, 1800, TimeUnit.SECONDS);//设置超时时间
         }else {
             session.setAttribute("userInfo",user);
         }
 
         return authenticationInfo;
     }
+
 
     /**
      * 获取权限授权信息，如果缓存中存在，则直接从缓存中获取，否则就重新获取， 登录成功后调用

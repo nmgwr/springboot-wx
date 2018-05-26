@@ -1,4 +1,4 @@
-package com.nmgwr.admin.common.config;
+package com.nmgwr.admin.common.config.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -105,6 +105,8 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager(Environment env) {
         WxSessionManager mySessionManager = new WxSessionManager();
+        //sessionManager通过sessionValidationSchedulerEnabled禁用掉会话调度器，因为我们禁用掉了会话，所以没必要再定期过期会话了。
+        mySessionManager.setSessionValidationSchedulerEnabled(false);
         //如果sessionType是redis则设置resdisSessionDao、否则走默认存内存里
         String sessionType = env.getProperty("spring.session-type");
         if(sessionType != null && sessionType.equals("redis")){
@@ -134,7 +136,6 @@ public class ShiroConfig {
         defaultAAP.setProxyTargetClass(true);
         return defaultAAP;
     }
-
 
 
 }

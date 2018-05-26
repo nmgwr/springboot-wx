@@ -1,4 +1,4 @@
-package com.nmgwr.admin.common.config;
+package com.nmgwr.admin.common.config.shiro;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;

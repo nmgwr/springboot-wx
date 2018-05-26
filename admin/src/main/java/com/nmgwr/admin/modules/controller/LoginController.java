@@ -44,6 +44,7 @@ public class LoginController extends BaseController{
     public Result login(@RequestParam Map<String,String> params, HttpServletRequest req){
         Result result = new Result();
         UsernamePasswordToken token = new UsernamePasswordToken(params.get("loginName"),params.get("passwd"));
+        token.setRememberMe(true);
         Subject subject = SecurityUtils.getSubject();
         Map data = new HashMap<String,Object>();
         try{
