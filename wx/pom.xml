@@ -28,6 +28,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.nmgwr.WxApplication</mainClass><!--这个要改成自己的入口类-->
+                    <fork>true</fork>
                 </configuration>
                 <executions>
                     <execution>
@@ -36,6 +37,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <!-- spring热部署-->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
