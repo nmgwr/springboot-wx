@@ -27,8 +27,6 @@ public class RedisTemplateConfig {
      */
     @Bean
     public RedisTemplate redisTemplateInit() {
-        System.out.println("-----------sout-------RedisTemplateConfig---------redis key序列化----------------");
-        log.info(("---------------logger------------redis key序列化----------------"));
         RedisSerializer redisSerializer = new StringRedisSerializer();
         //设置序列化Key的实例化对象
         redisTemplate.setKeySerializer(redisSerializer);

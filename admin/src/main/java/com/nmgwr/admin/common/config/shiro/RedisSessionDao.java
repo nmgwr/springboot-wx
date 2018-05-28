@@ -44,8 +44,6 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO {
         //设置序列化Key的实例化对象
         redisTemplate.setKeySerializer(redisSerializer);
         redisTemplate.setHashKeySerializer(redisSerializer);
-            System.out.println("-----------sout----------------redis key序列化----------------");
-            logger.info(("---------------logger------------redis key序列化----------------"));
         Serializable sessionId = super.doCreate(session);
         logger.debug("doCreate:{}", session.getId());
         redisTemplate.opsForValue().set(toUTF8Str(prefix + sessionId.toString()), session);
