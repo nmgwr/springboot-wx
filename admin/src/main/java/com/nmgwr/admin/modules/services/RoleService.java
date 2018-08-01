@@ -19,8 +19,8 @@ public class RoleService {
      * @param params
      * @return
      */
-    public List<SysRole> findList(Map<String,String> params){
-        return roledao.findList(params);
+    public List<SysRole> findList(SysRole role){
+        return roledao.findList(role);
     }
 
 
