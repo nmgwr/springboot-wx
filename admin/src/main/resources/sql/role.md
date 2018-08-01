@@ -10,8 +10,8 @@ condition
 @if(!isEmpty(name)){
     and t.name like #'%' + name + '%'#
 @}
-@if(!isEmpty(enName)){
-    and t.enname = #enName#
+@if(!isEmpty(enname)){
+    and t.enname = #enname#
 @}
 @if(!isEmpty(roleType)){
     and t.role_type = #roleType#

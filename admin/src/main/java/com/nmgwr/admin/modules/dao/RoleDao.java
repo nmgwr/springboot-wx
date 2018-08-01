@@ -1,7 +1,6 @@
 package com.nmgwr.admin.modules.dao;
 
 import com.nmgwr.admin.modules.entity.SysRole;
-import com.nmgwr.admin.modules.entity.User;
 import org.beetl.sql.core.annotatoin.SqlResource;
 import org.beetl.sql.core.mapper.BaseMapper;
 
@@ -11,6 +10,6 @@ import java.util.Map;
 @SqlResource("role")
 public interface RoleDao extends BaseMapper {
 
-    List findList(Map<String,String> params);
+    List<SysRole> findList(Map<String,String> params);
 
 }
