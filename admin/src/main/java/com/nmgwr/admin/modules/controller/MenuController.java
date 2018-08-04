@@ -27,4 +27,7 @@ public class MenuController extends BaseController{
     public Result update(SysMenu menu){ return ResultUtil.success(menuService.updateMenu(menu)); }
     /*编辑菜单*/
 
+    @RequestMapping("/sys/menu/deleteMenu")
+    public Result delete(SysMenu menu){ return ResultUtil.success(menuService.deleteMenu(menu));}
+    /*删除菜单*/
 }

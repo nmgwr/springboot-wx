@@ -14,4 +14,8 @@ public interface MenuDao extends BaseMapper {
     int saveMenu(SysMenu menu);
 
     int updateMenu(SysMenu menu);
+
+    int deleteMenu(SysMenu menu);
+
+    int deleteRoleMenu(SysMenu menu);
 }

@@ -19,10 +19,19 @@ public class MenuService {
     public List<SysMenu> menuList(){
         return menuDao.menuList();
     }
+
 /*
 * 新增菜单*/
     public int saveMenu(SysMenu menu) { return  menuDao.saveMenu(menu); }
+
 /*
 *编辑菜单*/
     public int updateMenu(SysMenu menu){ return  menuDao.updateMenu(menu); }
+
+/*
+删除菜单*/
+    public  int deleteMenu(SysMenu menu) { menuDao.deleteRoleMenu(menu);
+        menuDao.deleteMenu(menu);
+        return  menuDao.deleteMenu(menu);}
+
 }
