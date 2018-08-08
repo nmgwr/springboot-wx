@@ -12,16 +12,40 @@ import java.util.Map;
 public class RoleService {
 
     @Autowired
-    private RoleDao roledao;
+    private RoleDao roleDao;
 
     /**
-     * 根据参数查询角色
+     * 查询角色
      * @param params
      * @return
      */
     public List<SysRole> findList(SysRole role){
-        return roledao.findList(role);
+        return roleDao.findList(role);
     }
 
+    /**
+     * 新增角色
+     * @param role
+     * @return
+     */
+    public int saveRole(SysRole role) { return  roleDao.saveRole(role); }
+
+    /**
+     * 编辑角色
+     * @param role
+     * @return
+     */
+    public int updateRole(SysRole role){ return  roleDao.updateRole(role); }
+
+    /**
+     * 删除角色
+     * @param role
+     * @return
+     */
+    public  int deleteRole(SysRole role) {
+        roleDao.deleteRoleMenu(role);
+        roleDao.deleteUserRole(role);
+        roleDao.deleteRole(role);
+        return  roleDao.deleteRole(role);}
 
 }

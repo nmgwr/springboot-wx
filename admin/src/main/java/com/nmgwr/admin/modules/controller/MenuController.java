@@ -15,19 +15,34 @@ public class MenuController extends BaseController{
     @Autowired
     private MenuService menuService;
 
+    /**
+     * 菜单列表
+     * @return
+     */
     @RequestMapping("/sys/menu/menuList")
     public Result menuList(){ return ResultUtil.success(menuService.menuList()); }
-    /*菜单列表*/
 
+    /**
+     * 新增菜单
+     * @param menu
+     * @return
+     */
     @RequestMapping("/sys/menu/saveMenu")
     public Result save(SysMenu menu){ return ResultUtil.success(menuService.saveMenu(menu)); }
-    /*新增菜单*/
 
+    /**
+     * 编辑菜单
+     * @param menu
+     * @return
+     */
     @RequestMapping("/sys/menu/updateMenu")
     public Result update(SysMenu menu){ return ResultUtil.success(menuService.updateMenu(menu)); }
-    /*编辑菜单*/
 
+    /**
+     * 删除菜单
+     * @param menu
+     * @return
+     */
     @RequestMapping("/sys/menu/deleteMenu")
     public Result delete(SysMenu menu){ return ResultUtil.success(menuService.deleteMenu(menu));}
-    /*删除菜单*/
 }

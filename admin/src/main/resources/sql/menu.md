@@ -17,7 +17,7 @@ DELETE sys_role_menu FROM sys_role_menu LEFT JOIN sys_menu ON sys_role_menu.menu
 updateMenu
 ===
 * 菜单编辑
-UPDATE sys_menu s SET name = #name#, update_user = #updateUser#, update_date = #updateDate#, parent_id = #parentId#, href = #href#, icon = #icon#, is_show = #isShow#, type = #type#, permission = #permission# WHERE id = #id# 
+UPDATE sys_menu s SET name = #name#, update_user = #updateUser#, update_date = #updateDate#, href = #href#, icon = #icon#, is_show = #isShow#, type = #type#, permission = #permission# WHERE id = #id# 
 
 
 

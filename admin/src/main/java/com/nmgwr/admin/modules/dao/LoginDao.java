@@ -6,6 +6,7 @@ import org.beetl.sql.core.mapper.BaseMapper;
 
 import java.util.Map;
 
+//@SqlResource注解就是在sql目录下对应的.md文件。如果是java.account则对应是sql目录下的java目录下的account.md文件。这个文件写有相关的对数据库的操作。
 @SqlResource("login")
 public interface LoginDao extends BaseMapper {
 

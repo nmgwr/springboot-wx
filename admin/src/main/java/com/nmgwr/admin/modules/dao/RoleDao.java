@@ -11,4 +11,13 @@ public interface RoleDao extends BaseMapper {
 
     List<SysRole> findList(SysRole role);
 
+    int saveRole(SysRole role);
+
+    int updateRole(SysRole role);
+
+    int deleteRole(SysRole role);
+
+    int deleteRoleMenu(SysRole role);
+
+    void deleteUserRole(SysRole role);
 }

@@ -8,4 +8,12 @@ public interface UserDao extends BaseMapper<SysUser> {
 
     void findListPage(PageQuery<SysUser> query);
 
+    int saveUser(SysUser user);
+
+    int updateUser(SysUser user);
+
+    int deleteUser(SysUser user);
+
+    int deleteUserRole(SysUser user);
+
 }

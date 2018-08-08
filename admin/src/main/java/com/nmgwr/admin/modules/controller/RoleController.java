@@ -12,8 +12,39 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController extends BaseController{
     @Autowired
     private RoleService roleService;
-    @RequestMapping("/sys/role/findList")
+
+    /**
+     * 查看角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("/sys/role/roleList")
     public  Result findList(SysRole role){
         return ResultUtil.success(roleService.findList(role));
     }
+
+    /**
+     * 新增角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("/sys/role/saveRole")
+    public Result save(SysRole role){ return ResultUtil.success(roleService.saveRole(role)); }
+
+    /**
+     * 编辑角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("/sys/role/updateRole")
+    public Result update(SysRole role){ return ResultUtil.success(roleService.updateRole(role)); }
+
+    /**
+     * 删除角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("/sys/role/deleteRole")
+    public Result delete(SysRole role){ return ResultUtil.success(roleService.deleteRole(role));}
+
 }

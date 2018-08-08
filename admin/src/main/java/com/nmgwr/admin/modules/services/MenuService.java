@@ -13,23 +13,34 @@ import static java.awt.SystemColor.menu;
 public class MenuService {
     @Autowired
     private MenuDao menuDao;
-/*
-查询所有菜单
-* */
+
+    /**
+     * 查看菜单列表
+     * @return
+     */
     public List<SysMenu> menuList(){
         return menuDao.menuList();
     }
 
-/*
-* 新增菜单*/
+    /**
+     * 新增菜单
+     * @param menu
+     * @return
+     */
     public int saveMenu(SysMenu menu) { return  menuDao.saveMenu(menu); }
 
-/*
-*编辑菜单*/
+    /**
+     * 编辑菜单
+     * @param menu
+     * @return
+     */
     public int updateMenu(SysMenu menu){ return  menuDao.updateMenu(menu); }
 
-/*
-删除菜单*/
+    /**
+     * 删除菜单
+     * @param menu
+     * @return
+     */
     public  int deleteMenu(SysMenu menu) { menuDao.deleteRoleMenu(menu);
         menuDao.deleteMenu(menu);
         return  menuDao.deleteMenu(menu);}
